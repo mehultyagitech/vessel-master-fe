@@ -84,9 +84,9 @@ const MapComponent = () => {
               }}
             >
               <img
-                src="/public/pin.webp"
+                src="/public/rb_53.png"
                 alt="Green Pin"
-                className="w-8 h-8"
+                className="w-16 h-12"
               />
             </div>
           ))}
