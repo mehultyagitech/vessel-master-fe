@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import TopBarLocationPoint from './TopBarLocationPoint';
+import React, { useState } from "react";
+import TopBarLocationPoint from "./TopBarLocationPoint";
 
 const MapComponent = () => {
   const [points, setPoints] = useState([]);
@@ -7,13 +7,13 @@ const MapComponent = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [newPoint, setNewPoint] = useState({ x: 0, y: 0 });
   const [formData, setFormData] = useState({
-    locationCategory: '',
-    location: '',
-    checkPointNumber: '',
-    subLocation: '',
-    equipment: '',
-    object: '',
-    hazmat: '',
+    locationCategory: "",
+    location: "",
+    checkPointNumber: "",
+    subLocation: "",
+    equipment: "",
+    object: "",
+    hazmat: "",
   });
 
   // Handle map click to create a new point
@@ -34,13 +34,13 @@ const MapComponent = () => {
     setPoints([...points, { ...newPoint, ...formData }]);
     setModalVisible(false); // Close the modal after saving the data
     setFormData({
-      locationCategory: '',
-      location: '',
-      checkPointNumber: '',
-      subLocation: '',
-      equipment: '',
-      object: '',
-      hazmat: '',
+      locationCategory: "",
+      location: "",
+      checkPointNumber: "",
+      subLocation: "",
+      equipment: "",
+      object: "",
+      hazmat: "",
     });
   };
 
@@ -123,12 +123,14 @@ const MapComponent = () => {
                   <span>{selectedPoint.object}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-blue-500">Hazmat [ Quantity - Unit ]</span>
+                  <span className="text-blue-500">
+                    Hazmat [ Quantity - Unit ]
+                  </span>
                   <span>{selectedPoint.hazmat}</span>
                 </div>
               </div>
               <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded flex items-center">
-                 Open Details
+                Open Details
               </button>
             </>
           ) : (
@@ -139,77 +141,92 @@ const MapComponent = () => {
 
       {/* Modal for entering new point details */}
       {modalVisible && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-4 rounded-lg">
-            <h3 className="text-xl font-semibold mb-4">Add New Point</h3>
-            <form className="space-y-2">
-              <input
-                type="text"
-                name="locationCategory"
-                value={formData.locationCategory}
-                onChange={handleInputChange}
-                placeholder="Location Category"
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                name="location"
-                value={formData.location}
-                onChange={handleInputChange}
-                placeholder="Location"
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                name="checkPointNumber"
-                value={formData.checkPointNumber}
-                onChange={handleInputChange}
-                placeholder="Check Point Number"
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                name="subLocation"
-                value={formData.subLocation}
-                onChange={handleInputChange}
-                placeholder="Sub Location"
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                name="equipment"
-                value={formData.equipment}
-                onChange={handleInputChange}
-                placeholder="Equipment"
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                name="object"
-                value={formData.object}
-                onChange={handleInputChange}
-                placeholder="Object"
-                className="border p-2 w-full"
-              />
-              <input
-                type="text"
-                name="hazmat"
-                value={formData.hazmat}
-                onChange={handleInputChange}
-                placeholder="Hazmat [ Quantity - Unit ]"
-                className="border p-2 w-full"
-              />
-              <button
-                type="button"
-                onClick={handleFormSubmit}
-                className="bg-blue-500 text-white px-4 py-2 rounded"
-              >
-                Save
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 flex items-center justify-end bg-black bg-opacity-50 z-50">
+    <div
+      className={`bg-white p-4 rounded-l-lg w-full max-w-md h-full shadow-lg transition-transform duration-300 ease-in-out transform ${
+        modalVisible ? 'translate-x-0' : 'translate-x-full'
+      }`}
+    >
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-xl font-semibold">Add New Point</h3>
+        <button
+          onClick={() => setModalVisible(false)}
+          className="text-gray-500 hover:text-gray-700"
+        >
+          &times;
+        </button>
+      </div>
+      <form className="space-y-2">
+        <input
+          type="text"
+          name="locationCategory"
+          value={formData.locationCategory}
+          onChange={handleInputChange}
+          placeholder="Location Category"
+          className="border p-2 w-full"
+        />
+        <input
+          type="text"
+          name="location"
+          value={formData.location}
+          onChange={handleInputChange}
+          placeholder="Location"
+          className="border p-2 w-full"
+        />
+        <input
+          type="text"
+          name="checkPointNumber"
+          value={formData.checkPointNumber}
+          onChange={handleInputChange}
+          placeholder="Check Point Number"
+          className="border p-2 w-full"
+        />
+        <input
+          type="text"
+          name="subLocation"
+          value={formData.subLocation}
+          onChange={handleInputChange}
+          placeholder="Sub Location"
+          className="border p-2 w-full"
+        />
+        <input
+          type="text"
+          name="equipment"
+          value={formData.equipment}
+          onChange={handleInputChange}
+          placeholder="Equipment"
+          className="border p-2 w-full"
+        />
+        <input
+          type="text"
+          name="object"
+          value={formData.object}
+          onChange={handleInputChange}
+          placeholder="Object"
+          className="border p-2 w-full"
+        />
+        <input
+          type="text"
+          name="hazmat"
+          value={formData.hazmat}
+          onChange={handleInputChange}
+          placeholder="Hazmat [ Quantity - Unit ]"
+          className="border p-2 w-full"
+        />
+        <button
+          type="button"
+          onClick={handleFormSubmit}
+          className="bg-blue-500 text-white px-4 py-2 rounded"
+        >
+          Save
+        </button>
+      </form>
+    </div>
+  </div>
+)}
+
+
+
     </>
   );
 };
