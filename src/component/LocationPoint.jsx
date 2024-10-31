@@ -4,6 +4,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import TopBarLocationPoint from "./TopBarLocationPoint";
 import ModalComponent from "./LocationModal";
+import '../style.css';
 
 const MapComponent = () => {
   const [points, setPoints] = useState([]);
@@ -86,8 +87,9 @@ const MapComponent = () => {
           zoomControl={true} // Enables the default zoom control
           scrollWheelZoom={true} // Enables zoom on scroll
           doubleClickZoom={true} // Enables zoom on double-click
-          style={{ height: "300px", width: "67%" }} // Adjusted height
+          style={{ height: "450px", width: "67%" }} // Adjusted height
           crs={L.CRS.Simple}
+          className="map-container"
         >
           <ImageOverlay url="/public/Daigram1.png" bounds={bounds} />
           <MapClickHandler />
