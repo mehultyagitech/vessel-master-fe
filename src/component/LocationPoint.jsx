@@ -1,11 +1,13 @@
-import React, { useState, useRef } from "react";
+import React, { useState } from "react";
+import { MapContainer, ImageOverlay, Marker, useMapEvents } from "react-leaflet";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import TopBarLocationPoint from "./TopBarLocationPoint";
 import ModalComponent from "./LocationModal";
 
 const MapComponent = () => {
   const [points, setPoints] = useState([]);
   const [selectedPoint, setSelectedPoint] = useState(null);
-  const [zoomLevel, setZoomLevel] = useState(1);
   const [modalVisible, setModalVisible] = useState(false);
   const [newPoint, setNewPoint] = useState({ x: 0, y: 0 });
   const [formData, setFormData] = useState({
@@ -17,28 +19,38 @@ const MapComponent = () => {
     object: "",
     hazmat: "",
   });
-  const imageRef = useRef(null);
-  const containerRef = useRef(null);
 
-  const zoomIn = () => {
-    setZoomLevel((prevZoom) => Math.min(prevZoom * 1.2, 3));
+  const bounds = [
+    [0, 0],
+    [1000, 1000], // Adjust according to your image's dimensions
+  ];
+
+  // Custom hook to handle map clicks
+  const MapClickHandler = () => {
+    useMapEvents({
+      click(e) {
+        const { lat, lng } = e.latlng;
+        setNewPoint({ x: lat, y: lng });
+        setModalVisible(true); // Open modal for data input
+        setFormData({ // Reset form data for new point
+          locationCategory: "",
+          location: "",
+          checkPointNumber: "",
+          subLocation: "",
+          equipment: "",
+          object: "",
+          hazmat: "",
+        });
+        setSelectedPoint(null); // Reset selected point for new point
+      },
+    });
+    return null;
   };
 
-  const zoomOut = () => {
-    setZoomLevel((prevZoom) => Math.max(prevZoom / 1.2, 0.5));
-  };
-
-  const handleMapClick = (e) => {
-    const rect = containerRef.current.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-    setNewPoint({ x, y });
-    setModalVisible(true);
-  };
-
+  // Handle form submission to add new point
   const handleFormSubmit = () => {
-    setPoints([...points, { ...newPoint, ...formData }]);
+    const newPointData = { ...newPoint, ...formData };
+    setPoints([...points, newPointData]);
     setModalVisible(false);
     setFormData({
       locationCategory: "",
@@ -51,56 +63,50 @@ const MapComponent = () => {
     });
   };
 
+  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handlePointClick = (point) => {
-    setSelectedPoint(point);
-    setModalVisible(false);
+  // Handle existing marker click to view details
+  const handleMarkerClick = (point) => {
+    setSelectedPoint(point); // Update selected point
   };
 
   return (
     <>
       <TopBarLocationPoint />
       <div className="flex flex-col md:flex-row">
-        <div className="relative w-full md:w-2/3 h-96 bg-gray-200 border border-gray-300 overflow-hidden">
-          <div
-            ref={containerRef}
-            style={{
-              transform: `scale(${zoomLevel})`,
-              transformOrigin: "top left",
-              width: "100%",
-              height: "100%",
-              position: "relative",
-            }}
-          >
-            <img
-              src="/public/Daigram1.png"
-              alt="Map"
-              className="object-contain w-full h-full"
-              ref={imageRef}
-              onClick={handleMapClick}
+        <MapContainer
+          center={[500, 500]}
+          zoom={-1}
+          minZoom={-2}
+          maxZoom={4}
+          zoomControl={true} // Enables the default zoom control
+          scrollWheelZoom={true} // Enables zoom on scroll
+          doubleClickZoom={true} // Enables zoom on double-click
+          style={{ height: "300px", width: "67%" }} // Adjusted height
+          crs={L.CRS.Simple}
+        >
+          <ImageOverlay url="/public/Daigram1.png" bounds={bounds} />
+          <MapClickHandler />
+          {points.map((point, index) => (
+            <Marker
+              key={index}
+              position={[point.x, point.y]}
+              eventHandlers={{
+                click: () => handleMarkerClick(point),
+              }}
+              icon={L.icon({
+                iconUrl: "/public/rb_53.png",
+                iconSize: [30, 30],
+                iconAnchor: [15, 15],
+              })}
             />
-            {points.map((point, index) => (
-              <div
-                key={index}
-                className="absolute cursor-pointer transform -translate-x-1/2 -translate-y-1/2"
-                style={{
-                  top: `${point.y}%`,
-                  left: `${point.x}%`,
-                }}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handlePointClick(point);
-                }}
-              >
-                <img src="/public/rb_53.png" alt="Point Pin" className="w-8 h-8" />
-              </div>
-            ))}
-          </div>
-        </div>
+          ))}
+        </MapContainer>
+
         <div className="w-full md:w-1/3 p-4 border border-gray-300">
           {selectedPoint ? (
             <>
@@ -135,9 +141,6 @@ const MapComponent = () => {
                   <span>{selectedPoint.hazmat}</span>
                 </div>
               </div>
-              <button className="mt-4 px-4 py-2 bg-blue-500 text-white rounded flex items-center">
-                View Details
-              </button>
             </>
           ) : (
             <p>Select a point to view details</p>
@@ -152,15 +155,6 @@ const MapComponent = () => {
         handleInputChange={handleInputChange}
         handleFormSubmit={handleFormSubmit}
       />
-
-      <div className="mt-4 flex justify-center">
-        <button className="px-4 py-2 bg-green-500 text-white rounded" onClick={zoomIn}>
-          Zoom In
-        </button>
-        <button className="ml-4 px-4 py-2 bg-red-500 text-white rounded" onClick={zoomOut}>
-          Zoom Out
-        </button>
-      </div>
     </>
   );
 };
