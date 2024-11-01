@@ -106,7 +106,7 @@ const SidebarComponent = () => {
         <Menu>
           <div className="logo h-12 w-33" >
               <img
-                src="./public/Logo-M.jpg"
+                src="./Logo-M.jpg"
                 alt="Logo"
                 className="h-12"
                 style={{ width: "15rem" }}

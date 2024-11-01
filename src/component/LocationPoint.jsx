@@ -91,7 +91,7 @@ const MapComponent = () => {
           crs={L.CRS.Simple}
           className="map-container"
         >
-          <ImageOverlay url="/public/Daigram1.png" bounds={bounds} />
+          <ImageOverlay url="/Daigram1.png" bounds={bounds} />
           <MapClickHandler />
           {points.map((point, index) => (
             <Marker
@@ -101,7 +101,7 @@ const MapComponent = () => {
                 click: () => handleMarkerClick(point),
               }}
               icon={L.icon({
-                iconUrl: "/public/rb_53.png",
+                iconUrl: "/rb_53.png",
                 iconSize: [30, 30],
                 iconAnchor: [15, 15],
               })}

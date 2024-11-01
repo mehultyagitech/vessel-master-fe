@@ -6,7 +6,7 @@ const TopBarLocationPoint = ({ totalPoints }) => {
       <div className="flex space-x-2">
         {/* Add Inventory Point Button */}
         <button className="flex items-center space-x-1 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded">
-          <img src="/public/rb_53.png" alt="Add Point" className="w-10 h-8" />
+          <img src="/rb_53.png" alt="Add Point" className="w-10 h-8" />
           <span>Add Inventory Point</span>
         </button>
 

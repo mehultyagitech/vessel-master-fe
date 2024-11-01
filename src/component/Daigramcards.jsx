@@ -4,7 +4,7 @@ const Daigramcards = () => {
   const decksData = [
     {
       deckName: "Tween Deck",
-      imageSrc: "/public/Daigram1.png", // Update with the correct image path
+      imageSrc: "/Daigram1.png", // Update with the correct image path
       survey: "2",
       maint: "2",
       removed: "2",
@@ -16,7 +16,7 @@ const Daigramcards = () => {
     },
     {
       deckName: "2nd Deck",
-      imageSrc: "/public/Daigram2.png", // Update with the correct image path
+      imageSrc: "/Daigram2.png", // Update with the correct image path
       survey: "2",
       maint: "2",
       removed: "2",
@@ -28,7 +28,7 @@ const Daigramcards = () => {
     },
     {
       deckName: "Main Deck",
-      imageSrc: "/public/Daigram3.png", // Update with the correct image path
+      imageSrc: "/Daigram3.png", // Update with the correct image path
       survey: "1",
       maint: "1",
       removed: "1",

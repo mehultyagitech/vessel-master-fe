@@ -52,7 +52,7 @@ const Navbar = () => {
           {/* User Info and Dropdown */}
           <div className="flex items-center cursor-pointer" ref={dropdownRef}>
             <img
-              src="./public/Users.jpg"  // <-- Path to your uploaded image
+              src="./Users.jpg"  // <-- Path to your uploaded image
               alt="User Avatar"
               className="w-10 h-10 rounded-full border border-white mr-2"
               onClick={toggleDropdown}
