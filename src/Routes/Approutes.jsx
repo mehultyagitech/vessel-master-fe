@@ -12,7 +12,7 @@ const Approutes = () => {
   const privateRoute=[
     {
       path:"/",
-      component: Login,
+      component: Dashboard,
     },
     {
       path:'/dashboard',
